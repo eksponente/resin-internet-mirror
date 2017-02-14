@@ -10,8 +10,10 @@ fi
 
 for zim in "$@"; do
   name=$(basename "$zim")
-  if [[ -z "$target/$name" ]]; then
+  if [[ -a "$target/$name" ]]; then
     echo "$target/$name already exists, skipping" >&2
+    kiwix-index  "$target/$name" "$root/kiwix/index"
+    kiwix-manage "$target/kiwix/library.xml" add "$target/$name"
     continue
   fi
   wget -O "$target/$name" "$ZIM_URL/$zim"
